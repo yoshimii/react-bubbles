@@ -23,17 +23,20 @@ const ColorList = ({ colors, updateColors, props }) => {
     console.log(colorToEdit);
     axiosWithAuth().put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
     .then(res => {
-        props.history.push('/bubbles')
+        console.log(props)
     }).catch(err => {
         console.log(err,'update failed')
     })
-    // think about where will you get the id from...
-    // where is is saved right now?
 
   };
 
   const deleteColor = color => {
-    // make a delete request to delete this color
+    axiosWithAuth().delete(`http://localhost:5000/api/colors/${color.id}`).then(res => {
+      // this.props.history.push('/');
+      console.log(res.data)
+      }).catch(err => {
+        console.log(err, 'delete failed')
+    })
   };
 
   return (
