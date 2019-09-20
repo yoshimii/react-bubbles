@@ -17,7 +17,7 @@ const BubblePage = () => {
 }, [])
 
 if(!colorList){
-    return <p>Loading friends...</p>
+    return <p>Loading bubbles...</p>
 }
 
 

@@ -7,8 +7,9 @@ const initialColor = {
   code: { hex: "" }
 };
 
-const ColorList = ({ colors, updateColors, props }) => {
+const ColorList = ({ colors, updateColors }, props) => {
   console.log(colors);
+  
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -16,14 +17,19 @@ const ColorList = ({ colors, updateColors, props }) => {
     setEditing(true);
     setColorToEdit(color);
   };
-
+console.log(props)
   const saveEdit = e => {
     e.preventDefault();
     // Make a put request to save your updated color
     console.log(colorToEdit);
     axiosWithAuth().put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
     .then(res => {
-        console.log(props)
+      axiosWithAuth().get('/colors')
+      .then(res => {
+          // set that data to the colorList state property
+          updateColors(res.data)
+          console.log(res)
+      })
     }).catch(err => {
         console.log(err,'update failed')
     })
@@ -32,7 +38,12 @@ const ColorList = ({ colors, updateColors, props }) => {
 
   const deleteColor = color => {
     axiosWithAuth().delete(`http://localhost:5000/api/colors/${color.id}`).then(res => {
-      // this.props.history.push('/');
+      axiosWithAuth().get('/colors')
+      .then(res => {
+          // set that data to the colorList state property
+          updateColors(res.data)
+          console.log(res)
+      })
       console.log(res.data)
       }).catch(err => {
         console.log(err, 'delete failed')
