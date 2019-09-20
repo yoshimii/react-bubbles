@@ -18,7 +18,7 @@ const [ creds, setCreds] = useState({ username: '', password: '' })
         .post('/login', creds)
         .then(res => {
             localStorage.setItem('token', res.data.payload);
-            props.history.push('/colors')
+            props.history.push('/bubbles')
             console.log(res)
         })
         .catch(err => {
