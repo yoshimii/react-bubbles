@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { withRouter } from 'react-router-dom';
+import Axios from "axios";
 
 const initialColor = {
   color: "",
   code: { hex: "" }
 };
 
-const ColorList = ({ colors, updateColors }) => {
+const ColorList = ({ colors, updateColors, props }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
@@ -19,8 +20,16 @@ const ColorList = ({ colors, updateColors }) => {
   const saveEdit = e => {
     e.preventDefault();
     // Make a put request to save your updated color
+    console.log(colorToEdit);
+    Axios.put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+    .then(res => {
+        props.history.push('/bubbles')
+    }).catch(err => {
+        console.log('update failed')
+    })
     // think about where will you get the id from...
     // where is is saved right now?
+
   };
 
   const deleteColor = color => {
@@ -82,4 +91,4 @@ const ColorList = ({ colors, updateColors }) => {
   );
 };
 
-export default ColorList;
+export default withRouter(ColorList);
