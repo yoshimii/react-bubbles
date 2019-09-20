@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { withRouter } from 'react-router-dom';
-import Axios from "axios";
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const initialColor = {
   color: "",
@@ -21,11 +21,11 @@ const ColorList = ({ colors, updateColors, props }) => {
     e.preventDefault();
     // Make a put request to save your updated color
     console.log(colorToEdit);
-    Axios.put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+    axiosWithAuth().put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
     .then(res => {
         props.history.push('/bubbles')
     }).catch(err => {
-        console.log('update failed')
+        console.log(err,'update failed')
     })
     // think about where will you get the id from...
     // where is is saved right now?
